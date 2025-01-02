@@ -1,0 +1,2 @@
+CREATE DATABASE your_database_name;
+GRANT ALL PRIVILEGES ON your_database_name.* TO 'your_username'@'localhost';
