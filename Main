@@ -1,0 +1,27 @@
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
+public class Main {
+    public static void main(String[] args) {
+        // Создаем несколько объектов Person
+        Person person1 = new Person("Alice", 30);
+        Person person2 = new Person("Bob", 25);
+
+        // Сохраняем их в базу данных
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            Transaction transaction = session.beginTransaction();
+            session.save(person1);
+            session.save(person2);
+            transaction.commit();
+        }
+
+        // Получаем всех людей из базы данных
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            session.createQuery("FROM Person", Person.class).getResultList()
+                    .forEach(System.out::println);
+        }
+
+        // Закрываем фабрику сессий
+        HibernateUtil.shutdown();
+    }
+}
